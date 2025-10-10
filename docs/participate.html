@@ -159,7 +159,8 @@
     </label>
   </div>
 
-   <div class="button-wrapper">
+  <!-- Submit Button -->
+  <div class="button-wrapper">
     <button type="submit" id="submitBtn" class="button three w-button">
       <span id="btnText">Submit & Pay</span>
       <span id="btnLoader" class="loader" style="display:none;"></span>
@@ -168,11 +169,7 @@
 
 </form>
 
-<!-- Iframe jaha pay.php load hoga -->
-<div id="paymentFrame" style="display:none; margin-top:20px;">
-  <iframe id="paymentIframe" src="" width="100%" height="600" style="border:none;"></iframe>
-</div>
-
+<!-- JavaScript -->
 <script>
   const form = document.getElementById('contest-form');
   const categorySelect = document.getElementById('category');
@@ -181,8 +178,6 @@
   const submitBtn = document.getElementById('submitBtn');
   const btnText = document.getElementById('btnText');
   const btnLoader = document.getElementById('btnLoader');
-  const paymentFrame = document.getElementById('paymentFrame');
-  const paymentIframe = document.getElementById('paymentIframe');
 
   // Show manual category input
   categorySelect.addEventListener('change', () => {
@@ -197,30 +192,24 @@
 
   // On form submit
   form.addEventListener('submit', (e) => {
-    e.preventDefault(); // stop page redirect
+    if (!form.checkValidity()) return; // let browser validate first
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
+    // Hide text and show loading spinner
     btnText.style.display = "none";
     btnLoader.style.display = "inline-block";
     submitBtn.disabled = true;
 
+    // Optional: combine manual category if 'Others'
     if (categorySelect.value === 'Others') {
       categorySelect.value = manualInput.value;
     }
 
-    // Instead of redirecting, load pay.php in iframe
-    paymentIframe.src = "https://nirapay.kesug.com/pay.php";
-    paymentFrame.style.display = "block";
-
-    // Optional: hide the form
-    form.style.display = "none";
+    // Set redirect target
+    form.action = "https://nirapay.kesug.com/pay.php";
   });
 </script>
 
+<!-- CSS for Loader -->
 <style>
   .loader {
     border: 2px solid #f3f3f3;
@@ -238,6 +227,7 @@
   }
 </style>
 
+ 
 
 
 <!--
