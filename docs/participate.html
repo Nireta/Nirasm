@@ -92,30 +92,30 @@
 
 
 <div class="form-block w-form">
-  <form id="contest-form" name="contest-form" method="post" class="form" aria-label="Contest Participation Form" enctype="multipart/form-data">
+ <form id="contest-form" name="contest-form" method="post" class="form" aria-label="Contest Participation Form" enctype="multipart/form-data">
 
   <!-- Name -->
   <div class="form-column">
     <label for="full-name" class="sub-heading-regular">Full Name</label>
-    <input class="text-field w-input" maxlength="256" name="full-name" placeholder="" type="text" id="full-name" required>
+    <input class="text-field w-input" maxlength="256" name="full-name" type="text" id="full-name" required>
   </div>
 
   <!-- Email -->
   <div class="form-column">
     <label for="email" class="sub-heading-regular">Email Address</label>
-    <input class="text-field w-input" maxlength="256" name="email" placeholder="" type="email" id="email" required>
+    <input class="text-field w-input" maxlength="256" name="email" type="email" id="email" required>
   </div>
 
   <!-- Phone -->
   <div class="form-column">
     <label for="phone" class="sub-heading-regular">Phone Number</label>
-    <input class="text-field w-input" maxlength="15" name="phone" placeholder="" type="tel" id="phone" required>
+    <input class="text-field w-input" maxlength="15" name="phone" type="tel" id="phone" required>
   </div>
 
   <!-- Address -->
   <div class="form-column">
     <label for="address" class="sub-heading-regular">Full Address</label>
-    <textarea class="text-field w-input" name="address" id="address" placeholder="Kindly enter complete address along with pincode for seamless certificate delivery." rows="3" required></textarea>
+    <textarea class="text-field w-input" name="address" id="address" rows="3" required></textarea>
   </div>
 
   <!-- Category Selection -->
@@ -134,15 +134,15 @@
   </div>
 
   <!-- Manual Category Input -->
-  <div class="form-column" id="manual-category-container" style="display: none;">
+  <div class="form-column" id="manual-category-container" style="display:none;">
     <label for="manual-category" class="sub-heading-regular">Enter Your Category</label>
     <input class="text-field w-input" type="text" name="manual-category" id="manual-category" placeholder="Enter category here">
   </div>
 
   <!-- Photo Description -->
   <div class="form-column">
-    <label for="photo-desc" class="sub-heading-regular">Short Photo Description</label>
-    <textarea class="text-field w-input" name="description" id="description" placeholder="" rows="3" required></textarea>
+    <label for="description" class="sub-heading-regular">Short Photo Description</label>
+    <textarea class="text-field w-input" name="description" id="description" rows="3" required></textarea>
   </div>
 
   <!-- Photo Upload -->
@@ -160,74 +160,57 @@
   </div>
 
   <!-- Submit Button -->
-  <div class="button-wrapper">
-    <button type="submit" id="submitBtn" class="button three w-button">
+  <div class="button-wrapper" style="text-align:center;">
+    <button type="submit" id="submitBtn" class="button three w-button" style="position:relative;">
       <span id="btnText">Submit & Pay</span>
-      <span id="btnLoader" class="loader" style="display:none;"></span>
+      <span id="btnLoader" class="loader" style="display:none; position:absolute; left:50%; transform:translateX(-50%);">⏳</span>
     </button>
   </div>
-
 </form>
 
 <!-- JavaScript -->
 <script>
-  const form = document.getElementById('contest-form');
-  const categorySelect = document.getElementById('category');
-  const manualContainer = document.getElementById('manual-category-container');
-  const manualInput = document.getElementById('manual-category');
-  const submitBtn = document.getElementById('submitBtn');
-  const btnText = document.getElementById('btnText');
-  const btnLoader = document.getElementById('btnLoader');
+const form = document.getElementById('contest-form');
+const category = document.getElementById('category');
+const manualContainer = document.getElementById('manual-category-container');
+const manualInput = document.getElementById('manual-category');
+const submitBtn = document.getElementById('submitBtn');
+const btnText = document.getElementById('btnText');
+const btnLoader = document.getElementById('btnLoader');
 
-  // Show manual category input
-  categorySelect.addEventListener('change', () => {
-    if (categorySelect.value === 'Others') {
-      manualContainer.style.display = 'block';
-      manualInput.required = true;
-    } else {
-      manualContainer.style.display = 'none';
-      manualInput.required = false;
-    }
-  });
+// Show manual category if "Others" selected
+category.addEventListener('change', () => {
+  if (category.value === 'Others') {
+    manualContainer.style.display = 'block';
+    manualInput.setAttribute('required', 'required');
+  } else {
+    manualContainer.style.display = 'none';
+    manualInput.removeAttribute('required');
+    manualInput.value = '';
+  }
+});
 
-  // On form submit
-  form.addEventListener('submit', (e) => {
-    if (!form.checkValidity()) return; // let browser validate first
+// On form submit
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    // Hide text and show loading spinner
-    btnText.style.display = "none";
-    btnLoader.style.display = "inline-block";
-    submitBtn.disabled = true;
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
-    // Optional: combine manual category if 'Others'
-    if (categorySelect.value === 'Others') {
-      categorySelect.value = manualInput.value;
-    }
+  // Show loading animation
+  btnText.style.display = 'none';
+  btnLoader.style.display = 'inline-block';
+  submitBtn.disabled = true;
 
-    // Set redirect target
-    form.action = "https://nirapay.kesug.com/pay.php";
-  });
+  // Simulate short delay, then redirect
+  setTimeout(() => {
+    window.location.href = 'https://nirapay.kesug.com/pay.php';
+  }, 1500);
+});
 </script>
 
-<!-- CSS for Loader -->
-<style>
-  .loader {
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #fff;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    animation: spin 0.8s linear infinite;
-    vertical-align: middle;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
-
- 
 
 
 <!--
