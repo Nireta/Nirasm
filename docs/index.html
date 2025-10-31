@@ -367,9 +367,28 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 ">
   <p style="margin: 0; line-height: 1.6; text-align: center; color: #000000;">
-    <b>Submission Deadline : </b>31 October 2025 <br>
-    <b>Awards Ceremony : </b>9 November 2025<br>
-    <b>Certificate Distribution : </b>From 11 November 2025<br><br>
+   <b>Submission Deadline : </b><span id="deadline"></span><br>
+<b>Awards Ceremony : </b><span id="ceremony"></span><br>
+<b>Certificate Distribution : </b>From <span id="certificate"></span><br><br>
+
+<script>
+  function formatDate(date) {
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-IN', options);
+  }
+
+  const today = new Date();
+  const ceremony = new Date();
+  const certificate = new Date();
+
+  ceremony.setDate(today.getDate() + 15);
+  certificate.setDate(today.getDate() + 17);
+
+  document.getElementById('deadline').innerText = formatDate(today);
+  document.getElementById('ceremony').innerText = formatDate(ceremony);
+  document.getElementById('certificate').innerText = formatDate(certificate);
+</script>
+
     <b>Note : </b>The award distribution ceremony will take place at Ibis Hebbal, Bengaluru.(Opp Manyata Business Park Hebbal Outer Ring Road Nagawara, Bangalore.). The winners are required to be present at the event. Whereas, Certificates of appreciation will be delivered to the provided addresses via courier service.
 
 
